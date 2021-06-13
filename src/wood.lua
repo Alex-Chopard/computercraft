@@ -20,9 +20,8 @@ end
 -- Start
 while true do
 
-  if Helper.isItemToDig() == "forward" do
+  if Helper.isItemToDig() == "forward" then
     Helper.checkFuel()
-
     digTree()
   end
 
