@@ -26,26 +26,29 @@ end
 
 function digLeavesAround() 
   if Helper.isItemAt(14) == "forward" then
-    turtle.select(13) -- To fill the sapling slot.
-    if Helper.isItemAt(14) then
+    if Helper.isItemAt(14) == "forward" then
+      turtle.select(13)
       turtle.dig()
-      turtle.turnRight()
     end
+    turtle.turnRight()
 
-    if Helper.isItemAt(14) then
+    if Helper.isItemAt(14) == "forward" then
+      turtle.select(13)
       turtle.dig()
-      turtle.turnRight()
     end
+    turtle.turnRight()
 
-    if Helper.isItemAt(14) then
+    if Helper.isItemAt(14) == "forward" then
+      turtle.select(13)
       turtle.dig()
-      turtle.turnRight()
     end
+    turtle.turnRight()
 
-    if Helper.isItemAt(14) then
+    if Helper.isItemAt(14) == "forward" then
+      turtle.select(13)
       turtle.dig()
-      turtle.turnRight()
     end
+    turtle.turnRight()
   end
 end
 

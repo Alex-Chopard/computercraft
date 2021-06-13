@@ -47,6 +47,10 @@ function Helper.down(count)
       if turtle.getFuelLevel() == 0 then
         Helper.checkFuel()
         turtle.down()
+      elseif Helper.isItemAt(14) == "down" then
+        -- If leaves bellow, dig it to avoid the turtle to bs stuck.
+        turtle.digDown()
+        turtle.down()
       else
         break
       end
