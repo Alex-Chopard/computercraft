@@ -27,17 +27,25 @@ end
 function digLeavesAround() 
   if Helper.isItemAt(14) == "forward" then
     turtle.select(13) -- To fill the sapling slot.
-    turtle.dig()
-    turtle.turnRight()
+    if Helper.isItemAt(14) then
+      turtle.dig()
+      turtle.turnRight()
+    end
 
-    turtle.dig()
-    turtle.turnRight()
+    if Helper.isItemAt(14) then
+      turtle.dig()
+      turtle.turnRight()
+    end
 
-    turtle.dig()
-    turtle.turnRight()
+    if Helper.isItemAt(14) then
+      turtle.dig()
+      turtle.turnRight()
+    end
 
-    turtle.dig()
-    turtle.turnRight()
+    if Helper.isItemAt(14) then
+      turtle.dig()
+      turtle.turnRight()
+    end
   end
 end
 
@@ -65,7 +73,7 @@ function digTree()
     Helper.down(20)
     turtle.back()
     Helper.place(13) -- Place sapling
-  elseif Helper.isItemAt(13) == "forward" then
+  else
     Helper.place(13) -- Place sapling
   end
 end
@@ -83,6 +91,7 @@ while true do
     digTree()
   
     turtle.turnRight()
+    move()
   elseif Helper.isItemAt(11) == "down" then  -- In turn right
     digTree()
 
@@ -90,17 +99,19 @@ while true do
     digTree()
 
     turtle.turnRight()
+    move()
   elseif Helper.isItemAt(10) == "down" then  -- In turn left
     digTree()
     turtle.turnRight()
     digTree()
 
     turtle.turnLeft()
+    move()
   elseif Helper.isItemAt(9) == "down" then  -- Refill
     Helper.checkFuel()
-    Helper.drop()
+    Helper.drop(1, 8)
+    io.sleep(60)
+    turtle.forward()
   end
-
-  move()
 end
 

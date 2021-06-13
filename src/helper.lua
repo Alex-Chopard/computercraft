@@ -2,6 +2,7 @@ local Helper = {}
 
 -- Refuel the turtle if needed.
 function Helper.checkFuel()
+  print("Fuel level: " .. turtle.getFuelLevel())
   if turtle.getFuelLevel() < 960 then
     turtle.select(16)
     if turtle.getItemCount() > 0 then
@@ -17,9 +18,9 @@ end
 
 function Helper.drop(start, offset)
   turtle.turnLeft()
-  for i = slot, offset, 1 do
+  for slot = start, offset, 1 do
     turtle.select(slot)
-    turtle.transferTo(slot, 64)
+    turtle.drop()
   end
   turtle.turnRight()
 end
