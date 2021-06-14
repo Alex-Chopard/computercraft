@@ -63,21 +63,28 @@ function digTree()
       turtle.select(1)
       turtle.digUp()
       turtle.up()
-      digLeavesAround()
+      -- digLeavesAround()
     end
     -- Dig leaves
-    while Helper.isItemAt(14) == "up" do
-      turtle.select(13) -- Place sapling
-      turtle.digUp()
-      turtle.up()
-      digLeavesAround()
-    end
+    -- while Helper.isItemAt(14) == "up" do
+    --   turtle.select(13) -- Place sapling
+    --   turtle.digUp()
+    --   turtle.up()
+    --   digLeavesAround()
+    -- end
     -- Go down
     Helper.down(20)
     turtle.back()
     Helper.place(13) -- Place sapling
   else
     Helper.place(13) -- Place sapling
+  end
+end
+
+function getSapling()
+  turtle.select(13)
+  if turtle.getItemCount() <= 32 then
+    turtle.suckUp(32)
   end
 end
 
@@ -113,7 +120,7 @@ while true do
   elseif Helper.isItemAt(9) == "down" then  -- Refill
     Helper.checkFuel()
     Helper.drop(1, 8)
-    io.sleep(60)
+    getSapling()
     turtle.forward()
   end
 end
