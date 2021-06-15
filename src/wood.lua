@@ -39,13 +39,13 @@ end
 
 function move()
   if shouldForward() then
-    turtle.forward()
+    Helper.forward(1)
   elseif shouldRight() then
     turtle.turnRight()
-    turtle.forward()
+    Helper.forward(1)
   elseif shouldLeft() then
     turtle.turnLeft()
-    turtle.forward()
+    Helper.forward(1)
   end
 end
 
@@ -55,19 +55,19 @@ function digTree()
     upCount = 0
     turtle.select(1)
     turtle.dig()
-    turtle.forward()
+    Helper.forward(1)
     -- Dig wood
     while hasWoodAtUp() do
       turtle.select(1)
       turtle.digUp()
-      turtle.up()
+      Helper.up(1)
       upCount = upCount + 1
     end
     -- Go down
     if upCount > 0 then
       Helper.down(upCount)
     end
-    turtle.back()
+    Helper.back(1)
     Helper.place(14) -- Place sapling
   else
     Helper.place(14) -- Place sapling
@@ -115,12 +115,12 @@ while true do
   elseif shouldRefill() then  -- Refill
     Helper.checkFuel()
 
-    turtle.turnRight()
-    Helper.drop(1, 9)
     turtle.turnLeft()
+    Helper.drop(1, 9)
+    turtle.turnRight()
 
     getSapling()
-    turtle.forward()
+    Helper.forward(1)
   end
 end
 

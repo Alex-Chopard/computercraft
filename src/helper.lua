@@ -42,12 +42,46 @@ function Helper.place(slot)
   turtle.place()
 end
 
-
 -- Movment
+function Helper.forward(count)
+  for i = 1, count, 1 do
+    if not turtle.forward() then
+      turtle.dig()
+      turtle.attack()
+      i = i + 1
+    end
+  end
+end
+
 function Helper.down(count)
   for i = 1, count, 1 do
     if not turtle.down() then
       turtle.digDown()
+      turtle.attackDown()
+      i = i + 1
+    end
+  end
+end
+
+function Helper.up(count)
+  for i = 1, count, 1 do
+    if not turtle.up() then
+      turtle.digUp()
+      turtle.attackUp()
+      i = i + 1
+    end
+  end
+end
+
+function Helper.back(count)
+  for i = 1, count, 1 do
+    if not turtle.back() then
+      turtle.turnRight()
+      turtle.turnRight()
+      turtle.dig()
+      turtle.attack()
+      turtle.turnRight()
+      turtle.turnRight()
       i = i + 1
     end
   end
