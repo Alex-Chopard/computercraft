@@ -9,6 +9,15 @@ local Helper = require("helper")
 -- Slot: 11: Turne left
 -- Slot: 10: Fuel refill and drop items (rigth fuel, left items)
 
+-- Variables
+local fuelUsed = 0
+local fuelAtBeggin = 0
+local fuelAtEnd = 0
+local logDigged = 0
+local logDiggedLastLoop = 0
+local treeDigged = 0
+local treeDiggedLastLoop = 0
+
 function hasWoodAtUp()
   turtle.select(15)
   return turtle.compareUp()
@@ -36,6 +45,18 @@ function shouldRefill()
 end
 
 -- Functions
+function printStatistics()
+  print("***************************************")
+  print("        " .. os.date("%d.%m.%Y %H:%M"))
+  print("Fuel level: " .. turtle.getFuelLevel())
+  print("Fuel used: " .. fuelUsed)
+  print("Fuel used last loop: " .. fuelAtBeggin - fuelAtEnd)
+  print("Log digged: " .. logDigged)
+  print("Log digged last loop: " .. logDiggedLastLoop)
+  print("Tree digged: " .. treeDigged)
+  print("Tree digged last loop: " .. treeDiggedLastLoop)
+  print("***************************************")
+end
 
 function move()
   if shouldForward() then
@@ -55,11 +76,13 @@ function digTree()
     upCount = 0
     turtle.select(1)
     turtle.dig()
+    logDiggedLastLoop = logDiggedLastLoop + 1
     Helper.forward(1)
     -- Dig wood
     while hasWoodAtUp() do
       turtle.select(1)
       turtle.digUp()
+      logDiggedLastLoop = logDiggedLastLoop + 1
       Helper.up(1)
       upCount = upCount + 1
     end
@@ -69,6 +92,7 @@ function digTree()
     end
     Helper.back(1)
     Helper.place(14) -- Place sapling
+    treeDiggedLastLoop = treeDiggedLastLoop + 1
   else
     Helper.place(14) -- Place sapling
   end
@@ -85,6 +109,7 @@ end
 
 -- Start
 while true do
+  
   if shouldForward() then -- Normal
     turtle.turnRight()
   
@@ -113,6 +138,15 @@ while true do
     turtle.turnLeft()
     move()
   elseif shouldRefill() then  -- Refill
+    fuelAtEnd = turtle.getFuelLevel()
+    fuelUsed = fuelAtBeggin - fuelAtEnd
+    logDigged = logDigged + logDiggedLastLoop
+    treeDigged = treeDigged + treeDiggedLastLoop
+    printStatistics()
+    fuelAtBeggin = turtle.getFuelLevel()
+    logDiggedLastLoop = 0 -- New loop
+    treeDiggedLastLoop = 0 -- New loop
+
     Helper.checkFuel()
 
     turtle.turnLeft()
