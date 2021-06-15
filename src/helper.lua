@@ -8,9 +8,7 @@ function Helper.checkFuel()
     if turtle.getItemCount() > 0 then
       turtle.refuel(16)
     else
-      turtle.turnRight()
-      turtle.suck(64)
-      turtle.turnLeft()
+      turtle.suckUp(64)
       turtle.refuel(16)
     end
   end
