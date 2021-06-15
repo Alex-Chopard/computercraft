@@ -15,12 +15,10 @@ function Helper.checkFuel()
 end
 
 function Helper.drop(start, offset)
-  turtle.turnLeft()
   for slot = start, offset, 1 do
     turtle.select(slot)
     turtle.drop()
   end
-  turtle.turnRight()
 end
 
 -- Check if the slot of the inventory is present.
@@ -39,9 +37,16 @@ function Helper.isItemAt(slot)
   return data
 end
 
+function Helper.place(slot)
+  turtle.select(slot)
+  turtle.place()
+end
+
+
+-- Movment
 function Helper.down(count)
   for i = 0, count, 1 do
-    if turtle.down() == false then
+    if not turtle.down() then
       if turtle.getFuelLevel() == 0 then
         Helper.checkFuel()
         turtle.down()
@@ -56,9 +61,13 @@ function Helper.down(count)
   end
 end
 
-function Helper.place(slot)
-  turtle.select(slot)
-  turtle.place()
+function Helper.downForce(count)
+  for i = 0, count, 1 do
+    if not turtle.down() then
+      turtle.digDown()
+      i = i + 1
+    end
+  end
 end
 
 return Helper
