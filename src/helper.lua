@@ -45,24 +45,7 @@ end
 
 -- Movment
 function Helper.down(count)
-  for i = 0, count, 1 do
-    if not turtle.down() then
-      if turtle.getFuelLevel() == 0 then
-        Helper.checkFuel()
-        turtle.down()
-      elseif Helper.isItemAt(14) == "down" then
-        -- If leaves bellow, dig it to avoid the turtle to bs stuck.
-        turtle.digDown()
-        turtle.down()
-      else
-        break
-      end
-    end
-  end
-end
-
-function Helper.downForce(count)
-  for i = 0, count, 1 do
+  for i = 1, count, 1 do
     if not turtle.down() then
       turtle.digDown()
       i = i + 1

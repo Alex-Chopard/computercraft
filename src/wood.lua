@@ -2,87 +2,80 @@ local Helper = require("helper")
 
 -- Slot 16: Coal
 -- Slot 15: Birch Wood
--- Slot 14: Birch Leaves
--- Slot 13: Birch Sapling
+-- Slot 14: Birch Sapling
 
--- Slot: 12: Forward
--- Slot: 11: Turne right
--- Slot: 10: Turne left
--- Slot: 9: Fuel refill and drop items (rigth fuel, left items)
+-- Slot: 13: Forward
+-- Slot: 12: Turne right
+-- Slot: 11: Turne left
+-- Slot: 10: Fuel refill and drop items (rigth fuel, left items)
+
+function hasWoodAtUp()
+  turtle.select(15)
+  return turtle.compareUp()
+end
+
+function hasWoodAtFront()
+  turtle.select(15)
+  return turtle.compare()
+end
+
+function shouldForward()
+  return Helper.isItemAt(13) == "down"
+end
+
+function shouldRight()
+  return Helper.isItemAt(12) == "down"
+end
+
+function shouldLeft()
+  return Helper.isItemAt(11) == "down"
+end
+
+function shouldRefill()
+  return Helper.isItemAt(10) == "down"
+end
 
 -- Functions
 
 function move()
-  if Helper.isItemAt(12) == "down" then
+  if shouldForward() then
     turtle.forward()
-  elseif Helper.isItemAt(11) == "down" then
+  elseif shouldRight() then
     turtle.turnRight()
     turtle.forward()
-  elseif Helper.isItemAt(10) == "down" then
+  elseif shouldLeft() then
     turtle.turnLeft()
     turtle.forward()
   end
 end
 
-function digLeavesAround() 
-  if Helper.isItemAt(14) == "forward" then
-    if Helper.isItemAt(14) == "forward" then
-      turtle.select(13)
-      turtle.dig()
-    end
-    turtle.turnRight()
-
-    if Helper.isItemAt(14) == "forward" then
-      turtle.select(13)
-      turtle.dig()
-    end
-    turtle.turnRight()
-
-    if Helper.isItemAt(14) == "forward" then
-      turtle.select(13)
-      turtle.dig()
-    end
-    turtle.turnRight()
-
-    if Helper.isItemAt(14) == "forward" then
-      turtle.select(13)
-      turtle.dig()
-    end
-    turtle.turnRight()
-  end
-end
-
 -- The Turtle has to be infront of the tree.
 function digTree()
-  if Helper.isItemAt(15) == "forward" then
+  if hasWoodAtFront() then
+    upCount = 0
     turtle.select(1)
     turtle.dig()
     turtle.forward()
     -- Dig wood
-    while Helper.isItemAt(15) == "up" do
+    while hasWoodAtUp() do
       turtle.select(1)
       turtle.digUp()
       turtle.up()
-      digLeavesAround()
-    end
-    -- Dig leaves
-    while Helper.isItemAt(14) == "up" do
-      turtle.select(13) -- Place sapling
-      turtle.digUp()
-      turtle.up()
-      digLeavesAround()
+      upCount = upCount + 1
     end
     -- Go down
-    Helper.down(20)
+    if upCount > 0 then
+      Helper.down(upCount)
+    end
     turtle.back()
-    Helper.place(13) -- Place sapling
+    Helper.place(14) -- Place sapling
   else
-    Helper.place(13) -- Place sapling
+    Helper.place(14) -- Place sapling
   end
 end
 
 function getSapling()
-  turtle.select(13)
+  turtle.select(14)
   if turtle.getItemCount() <= 32 then
     turtle.turnRight()
     turtle.suck(32)
@@ -92,7 +85,7 @@ end
 
 -- Start
 while true do
-  if Helper.isItemAt(12) == "down" then -- Normal
+  if shouldForward() then -- Normal
     turtle.turnRight()
   
     digTree()
@@ -104,7 +97,7 @@ while true do
   
     turtle.turnRight()
     move()
-  elseif Helper.isItemAt(11) == "down" then  -- In turn right
+  elseif shouldRight() then  -- In turn right
     digTree()
 
     turtle.turnLeft()
@@ -112,16 +105,20 @@ while true do
 
     turtle.turnRight()
     move()
-  elseif Helper.isItemAt(10) == "down" then  -- In turn left
+  elseif shouldLeft() then  -- In turn left
     digTree()
     turtle.turnRight()
     digTree()
 
     turtle.turnLeft()
     move()
-  elseif Helper.isItemAt(9) == "down" then  -- Refill
+  elseif shouldRefill() then  -- Refill
     Helper.checkFuel()
-    Helper.drop(1, 8)
+
+    turtle.turnRight()
+    Helper.drop(1, 9)
+    turtle.turnLeft()
+
     getSapling()
     turtle.forward()
   end
