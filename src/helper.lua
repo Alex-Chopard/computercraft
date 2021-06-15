@@ -44,37 +44,45 @@ end
 
 -- Movment
 function Helper.forward(count)
-  for i = 1, count, 1 do
+  i = 0
+  while i < count do
+    i = i + 1
     if not turtle.forward() then
       turtle.dig()
       turtle.attack()
-      i = i + 1
+      i = i - 1
     end
   end
 end
 
 function Helper.down(count)
-  for i = 1, count, 1 do
+  i = 0
+  while i < count do
+    i = i + 1
     if not turtle.down() then
       turtle.digDown()
       turtle.attackDown()
-      i = i + 1
+      i = i - 1
     end
   end
 end
 
 function Helper.up(count)
-  for i = 1, count, 1 do
+  i = 0
+  while i < count do
+    i = i + 1
     if not turtle.up() then
       turtle.digUp()
       turtle.attackUp()
-      i = i + 1
+      i = i - 1
     end
   end
 end
 
 function Helper.back(count)
-  for i = 1, count, 1 do
+  i = 0
+  while i < count do
+    i = i + 1
     if not turtle.back() then
       turtle.turnRight()
       turtle.turnRight()
@@ -82,7 +90,7 @@ function Helper.back(count)
       turtle.attack()
       turtle.turnRight()
       turtle.turnRight()
-      i = i + 1
+      i = i - 1
     end
   end
 end
