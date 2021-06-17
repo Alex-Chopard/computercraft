@@ -1,10 +1,9 @@
 local Helper = require("helper")
 
 -- Slot 16: Coal
--- Slot 15: Furnace
 
--- Slot 14: Border
--- Slot 13: Refill (top: Fuel, right: Log, left: Coal)
+-- Slot 15: Border
+-- Slot 14: Refill (top: Fuel, right: Log, left: Coal)
 
 local DIRECTION_TYPE = {
   RIGHT = "right",
@@ -19,20 +18,24 @@ local ACTION_TYPE = {
 local direction = DIRECTION_TYPE.RIGHT
 local action = ACTION_TYPE.FILL_LOG
 
+function isFurnace(data)
+  return data.name == "minecraft:lit_furnace" or data.name == "minecraft:furnace"
+end
+
 function hasFurnaceDown()
-  return Helper.isItemAt(15) == "down"
+  return isFurnace(turtle.inspectDown())
 end
 
 function hasFurnaceUp()
-  return Helper.isItemAt(15) == "up"
+  return isFurnace(turtle.inspectUp())
 end
 
 function shouldTurn()
-  return Helper.isItemAt(14) == "forward"
+  return Helper.isItemAt(15) == "forward"
 end
 
 function shouldRefill()
-  return Helper.isItemAt(13) == "down"
+  return Helper.isItemAt(14) == "down"
 end
 
 -- Functions
